@@ -24,3 +24,11 @@ Includes Iris frontend and dleyna dlna client.
 <code>
   docker compose up -d -f docker-compose-arm.yml
 </code>
+
+## Configuration
+
+- Copy the mopidy.conf to /opt/mopidy/mopidy.conf
+<code>
+mkdir /opt/mopidy/ && 
+cp mopidy.conf /opt/mopidy/mopidy.conf
+</code>
