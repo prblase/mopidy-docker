@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mopidy:
+    build: .
+    image: mopidy
+    container_name: mopidy
+    restart: always
+    env_file:
+      - .env
+    network_mode: host
+    volumes:
+      - /opt/mopidy/mopidy.conf:/etc/mopidy/mopidy.conf
+    devices:
+      - "/dev/snd:/dev/snd"
