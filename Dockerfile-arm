@@ -50,13 +50,13 @@ ADD mopidy.conf /etc/mopidy.conf
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 # COPY  docker-entrypoint.sh /
 
-RUN chown mopidy:audio -R /var/lib/mopidy \
-    && chown mopidy:audio /entrypoint.sh
+RUN chown root:audio -R /var/lib/mopidy \
+    && chown root:audio /docker-entrypoint.sh
 
 ADD localscan /usr/bin/localscan
 RUN chmod +x /usr/bin/localscan
 
-VOLUME /var/lib/mopidy
+VOLUME /opt/mopidy
 
 EXPOSE 6600
 EXPOSE 6680
