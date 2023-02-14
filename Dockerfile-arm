@@ -16,19 +16,10 @@ COPY  qemu-arm-static /usr/bin/qemu-arm-static
 
 RUN   apt-get update \
       && apt-get install -y wget gnupg gnupg2 curl \
-
       && mkdir -p /usr/local/share/keyrings \
       && wget -q -O /usr/local/share/keyrings/mopidy-archive-keyring.gpg \
   https://apt.mopidy.com/mopidy.gpg \
       && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
-
-      # && curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
-      # && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
-      # && apt-key add /tmp/mopidy.gpg \
-
-      # wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - \
-      # && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
-
       && apt-get update \
       && apt-get install -y \
                         mopidy \
@@ -52,8 +43,24 @@ RUN   python3 -m pip install \
                         Mopidy-Tidal \
                         Mopidy-YouTube
 
-RUN   echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.7/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
-COPY  docker-entrypoint.sh /
+ADD mopidy.conf /etc/mopidy.conf
+
+# RUN   echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.7/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
+
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+# COPY  docker-entrypoint.sh /
+
+RUN chown mopidy:audio -R /var/lib/mopidy \
+    && chown mopidy:audio /entrypoint.sh
+
+ADD localscan /usr/bin/localscan
+RUN chmod +x /usr/bin/localscan
+
+VOLUME /var/lib/mopidy
+
+EXPOSE 6600
+EXPOSE 6680
+EXPOSE 6681
 
 #USER mopidy
 ENTRYPOINT ["/docker-entrypoint.sh"]

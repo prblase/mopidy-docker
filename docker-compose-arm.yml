@@ -9,6 +9,6 @@ services:
       - .env
     network_mode: host
     volumes:
-      - /opt/mopidy/mopidy.conf:/etc/mopidy/mopidy.conf
+      - /opt/mopidy/mopidy.conf:/var/lib/mopidy/mopidy.conf
     devices:
       - "/dev/snd:/dev/snd"
