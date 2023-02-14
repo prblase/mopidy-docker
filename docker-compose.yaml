@@ -5,9 +5,13 @@ services:
     image: mopidy
     container_name: mopidy
     restart: always
+    ports:
+      - 6600:6600
+      - 6680:6680
+      - 6681:6681
     env_file:
       - .env
-    network_mode: host
+    #network_mode: host
     volumes:
       - /opt/mopidy/mopidy.conf:/var/lib/mopidy/mopidy.conf
       - /media:/media
