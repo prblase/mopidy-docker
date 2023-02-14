@@ -37,10 +37,10 @@ RUN   apt-get update \
 
 # RUN   && apt-get clean \
 #     && rm -rf /var/lib/apt/lists/* 
-
 RUN   python3 -m pip install \
-                        setuptools \
                         wheel \
+                        setuptools
+RUN   python3 -m pip install \
                         Mopidy-Iris \
                         Mopidy-Tidal \
                         Mopidy-ALSAMixer \
