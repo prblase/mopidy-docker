@@ -56,7 +56,7 @@ RUN chown root:audio -R /var/lib/mopidy \
 ADD localscan /usr/bin/localscan
 RUN chmod +x /usr/bin/localscan
 
-VOLUME /opt/mopidy
+VOLUME /var/lib/mopidy
 
 EXPOSE 6600
 EXPOSE 6680
@@ -64,3 +64,4 @@ EXPOSE 6681
 
 #USER mopidy
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/bin/mopidy", "--config", "/etc/mopidy.conf:/mopidy.conf"]
