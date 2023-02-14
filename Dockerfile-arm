@@ -14,16 +14,16 @@ RUN   mkdir -p /usr/share/man/man1
 
 COPY  qemu-arm-static /usr/bin/qemu-arm-static
 
-RUN   apt update \
-      && apt install -y wget gnupg gnupg2 curl
+RUN   apt-get update \
+      && apt-get install -y wget gnupg gnupg2 curl \
 
-RUN   curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
-   && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
-   && apt-key add /tmp/mopidy.gpg \
+      && curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
+      && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
+      && apt-key add /tmp/mopidy.gpg \
       # wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - \
       # && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
-   && apt-get update \
-   && apt-get install --yes \
+      && apt-get update \
+      && apt-get install -y \
                         mopidy \
                         mopidy-mpd \
                         mopidy-local \
