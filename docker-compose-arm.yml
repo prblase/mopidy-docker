@@ -10,5 +10,6 @@ services:
     network_mode: host
     volumes:
       - /opt/mopidy/mopidy.conf:/var/lib/mopidy/mopidy.conf
+      - /media:/media
     devices:
       - "/dev/snd:/dev/snd"
