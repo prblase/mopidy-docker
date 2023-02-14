@@ -21,7 +21,7 @@ RUN   apt-get update \
   https://apt.mopidy.com/mopidy.gpg \
       && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
       && apt-get update \
-      && apt-get install -y \
+      && apt-get install -y --no-install-recommends \
                         mopidy \
                         mopidy-mpd \
                         mopidy-local \
@@ -30,7 +30,7 @@ RUN   apt-get update \
                         python3-pip \
                         python-crypto \
                         python-setuptools \
-                        git \
+                        python-alsaaudio \
                         sudo \
                         gstreamer1.0-alsa \
                         gstreamer1.0-libav 
@@ -41,6 +41,7 @@ RUN   apt-get update \
 RUN   python3 -m pip install \
                         Mopidy-Iris \
                         Mopidy-Tidal \
+                        Mopidy-ALSAMixer \
                         Mopidy-YouTube
 
 ADD mopidy.conf /etc/mopidy.conf
