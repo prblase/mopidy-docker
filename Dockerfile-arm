@@ -45,7 +45,6 @@ RUN   python3 -m pip install \
 RUN   python3 -m pip install \
                         Mopidy-Iris \
                         Mopidy-Tidal \
-                        Mopidy-ALSAMixer \
                         Mopidy-YouTube
 
 ADD mopidy.conf /etc/mopidy.conf
