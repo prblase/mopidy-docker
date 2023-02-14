@@ -1,38 +1,49 @@
-FROM arm32v7/debian:buster-slim
+FROM  arm32v7/debian:buster-slim
 
 LABEL maintainer="hoboristi" \
       dockerfile-version="1.0" \
-      description="Docker image for modipy"
+      description="Docker image for mopidy"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG   DEBIAN_FRONTEND=noninteractive
 
-USER root
+USER  root
 
-RUN mkdir -p /usr/share/man/man1
+RUN   mkdir -p /usr/share/man/man1
 
-COPY qemu-arm-static /usr/bin/qemu-arm-static
+COPY  qemu-arm-static /usr/bin/qemu-arm-static
 
-RUN apt update \
-&& apt install -y wget gnupg2
+RUN   apt update \
+      && apt install -y wget gnupg2 curl
 
-RUN wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - \
- && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
- && apt-get update \
- && apt-get install --yes --no-install-recommends \
-                    mopidy \
-                    mopidy-dleyna \
-                    python3-pip \
-                    sudo \
-                    gstreamer1.0-alsa \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* 
+RUN   wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add - \
+      && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
+       && apt-get update \
+      && apt-get install --yes \
+                        mopidy \
+                        mopidy-mpd \
+                        mopidy-local \
+                        mopidy-dleyna \
+                        python3 \
+                        python3-pip \
+                        python-crypto \
+                        python-setuptools \
+                        git \
+                        sudo \
+                        gstreamer1.0-alsa \
+                        gstreamer1.0-libav 
 
-RUN python3 -m pip install Mopidy-Iris
+RUN   && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* 
 
-RUN  echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.7/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
-COPY docker-entrypoint.sh /
+RUN   python3 -m pip install \
+                        Mopidy-Iris \
+                        Mopidy-Tidal \
+                        Mopidy-YouTube
+
+RUN   echo "mopidy ALL=NOPASSWD: /usr/local/lib/python3.7/dist-packages/mopidy_iris/system.sh" >> /etc/sudoers
+COPY  docker-entrypoint.sh /
 
 #USER mopidy
 ENTRYPOINT ["/docker-entrypoint.sh"]
