@@ -15,8 +15,8 @@ RUN   mkdir -p /usr/share/man/man1
 COPY  qemu-arm-static /usr/bin/qemu-arm-static
 
 RUN   apt-get update \
-      && apt-get install -y wget gnupg gnupg2 curl apt-utils \
-      && mkdir -p /usr/local/share/keyrings \
+      && apt-get install -y wget gnupg gnupg2 curl apt-utils
+RUN   mkdir -p /usr/local/share/keyrings \
       && wget -q -O /usr/local/share/keyrings/mopidy-archive-keyring.gpg \
   https://apt.mopidy.com/mopidy.gpg \
       && wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list \
